@@ -83,6 +83,8 @@ npx playwright show-report
 PlayWrightAutomation/
 ├── .github/workflows/
 │   ├── playwright.yml
+├── docs/
+│   ├── plano-de-teste-e-relatório
 ├── tests/
 │   ├── Cadastro.spec.js
 │   └── Login.spec.js
