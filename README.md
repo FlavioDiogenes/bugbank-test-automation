@@ -105,17 +105,18 @@ O plano de teste e relatório de bugs utilizado como base para os testes automat
 
 ### Login
 
-- BBQA-1 - Login com dados válidos
-- BBQA-2 - Login com e-mail inválido
-- BBQA-3 - Login com senha incorreta
-- BBQA-4 - Login com campos vazios
-- BBQA-5 - Login com espaços em branco
+- CT-1 - Login com dados válidos
+- CT-2 - Login com e-mail inválido
+- CT-3 - Login com senha incorreta
+- CT-4 - Login com campos vazios
+- CT-5 - Login com espaços em branco
 
 ### Cadastro
 
-- BBQA-6 - Cadastro com dados válidos
+- CT-6 - Cadastro com dados válidos
 - Demais casos de cadastro conforme plano de testes no Qase
 
 ## Observações
 
+- Alguns testes automatizados podem falhar porque a aplicação BugBank apresenta comportamentos divergentes dos resultados esperados definidos no plano de teste. Essas falhas estão documentadas no relatório de bugs disponível na pasta `docs`.
 - Os testes utilizam dados dinâmicos para criação de usuários, evitando conflito com e-mails já cadastrados.
