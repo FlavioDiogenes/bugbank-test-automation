@@ -92,6 +92,15 @@ PlayWrightAutomation/
 ├── package.json
 └── playwright.config.js
 ```
+## Documentação do projeto
+
+O plano de teste e o relatório de bugs utilizados como base para a automação estão disponíveis na pasta `docs`.
+
+Arquivo:
+
+```txt
+docs/plano-de-teste-e-relatorio-de-bugs.pdf
+```
 
 ## Casos automatizados
 
