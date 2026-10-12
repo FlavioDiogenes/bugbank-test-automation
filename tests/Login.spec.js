@@ -2,10 +2,21 @@ const { test, expect } = require('@playwright/test');
 
 const BASE_URL = 'https://bugbank.netlify.app/';
 
+async function cadastroPadrao (cadastro, email, Usuário, senha, senhaConfirmacao) {
+        await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
+        await cadastro.getByPlaceholder('Informe seu Nome').fill(Usuário);
+        await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
+        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senhaConfirmacao);
+};
+
+async function loginPadrao (login, email, senha) {
+    await login.getByPlaceholder('Informe seu e-mail').fill(email);
+    await login.getByPlaceholder('Informe sua senha').fill(senha);
+};
 // Testes automatizados baseados nos casos de teste documentados no plano de teste.
 // Os testes validam o comportamento esperado da aplicação BugBank conforme os CTs definidos.
 
-test.describe('Login - BugBank', () => {
+test.describe.only('Login - BugBank', () => {
 
   test('CT.01 - Login com dados válidos', async ({ page }) => {
 
@@ -20,10 +31,7 @@ test.describe('Login - BugBank', () => {
 
     const cadastro = page.locator('.card__register');
 
-    await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
-    await cadastro.getByPlaceholder('Informe seu Nome').fill('Usuário Teste');
-    await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
-    await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senha);
+    await cadastroPadrao(cadastro, email, 'Usuário Teste', senha, senha);
 
     await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
@@ -34,8 +42,8 @@ test.describe('Login - BugBank', () => {
     // Depois faz login com a conta criada
     const login = page.locator('.card__login');
 
-    await login.getByPlaceholder('Informe seu e-mail').fill(email);
-    await login.getByPlaceholder('Informe sua senha').fill(senha);
+    await loginPadrao(login, email, senha);
+
     await login.getByRole('button', { name: 'Acessar' }).click();
 
     await expect(page).toHaveURL(/home/);
@@ -48,8 +56,8 @@ test.describe('Login - BugBank', () => {
     const login = page.locator('.card__login');
 
     // Preenche o campo de login com formato de email inválido
-    await login.getByPlaceholder('Informe seu e-mail').fill('emailinvalido');
-    await login.getByPlaceholder('Informe sua senha').fill('Teste123');
+    await loginPadrao(login, 'emailinvalido', 'Teste123');
+
     await login.getByRole('button', { name: 'Acessar' }).click();
 
     await expect(page.getByText(/Formato inválido/i)).toBeVisible();
@@ -67,10 +75,7 @@ test.describe('Login - BugBank', () => {
 
     const cadastro = page.locator('.card__register');
 
-    await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
-    await cadastro.getByPlaceholder('Informe seu Nome').fill('Usuário Teste');
-    await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
-    await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senha);
+    await cadastroPadrao(cadastro, email, 'Usuário Teste', senha, senha);
 
     await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
@@ -81,9 +86,8 @@ test.describe('Login - BugBank', () => {
     //Depois insere uma senha incorreta
     const login = page.locator('.card__login');
 
-    await login.getByPlaceholder('Informe seu e-mail').fill(email);
-    await login.getByPlaceholder('Informe sua senha').fill('senhainvalida');
-    await login.getByRole( 'button', { name: 'Acessar' }).click();
+    await loginPadrao(login, email, 'senhainvalida');
+    await login.getByRole('button', { name: 'Acessar' }).click();
 
     await expect(page.getByText(/Usuário ou senha inválido/i)).toBeVisible();
     await expect(page).not.toHaveURL(/home/);
@@ -103,10 +107,10 @@ test.describe('Login - BugBank', () => {
 
   test('CT.05 - Login com espaços em branco', async ({ page }) =>{
     await page.goto(BASE_URL);
+    
     const login = page.locator('.card__login');
 
-    await login.getByPlaceholder('Informe seu e-mail').fill(' ');
-    await login.getByPlaceholder('Informe sua senha').fill(' ');
+    await loginPadrao(login, '   ', '   ');
 
     await login.getByRole('button', { name: 'Acessar' }).click();
 

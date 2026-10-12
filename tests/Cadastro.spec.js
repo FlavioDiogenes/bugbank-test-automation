@@ -2,6 +2,13 @@ const { test, expect } = require('@playwright/test');
 
 const BASE_URL = 'https://bugbank.netlify.app/';
 
+async function cadastroPadrao (cadastro, email, Usuário, senha, senhaConfirmacao) {
+        await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
+        await cadastro.getByPlaceholder('Informe seu Nome').fill(Usuário);
+        await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
+        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senhaConfirmacao);
+};
+
 // Testes automatizados baseados nos casos de teste documentados no plano de teste.
 // Os testes validam o comportamento esperado da aplicação BugBank conforme os CTs definidos.
 
@@ -17,10 +24,7 @@ test.describe('Cadastro - BugBank', () => {
         const senha = 'Teste123';
 
         // Preenche o formulário com dados válidos
-        await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
-        await cadastro.getByPlaceholder('Informe seu Nome').fill('Usuário Teste');
-        await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
-        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senha);
+        await cadastroPadrao(cadastro, email, 'Usuário Teste', senha, senha);
 
         await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
@@ -40,10 +44,7 @@ test.describe('Cadastro - BugBank', () => {
         const senha = 'Teste123';
 
         // Cadastra um usuário com email de formato inválido
-        await cadastro.getByPlaceholder('Informe seu e-mail').fill('emailinvalido');
-        await cadastro.getByPlaceholder('Informe seu Nome').fill('Usuário Teste');
-        await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
-        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senha);
+        await cadastroPadrao(cadastro, email, 'Usuário Teste', senha, senha);
 
         await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
@@ -62,10 +63,7 @@ test.describe('Cadastro - BugBank', () => {
         const senhaFraca = 'senha123';
 
         // Cadastra um usuário com senha simples
-        await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
-        await cadastro.getByPlaceholder('Informe seu Nome').fill('Usuário Teste');
-        await cadastro.getByPlaceholder('Informe sua senha').fill(senhaFraca);
-        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senhaFraca);
+        await cadastroPadrao(cadastro, email, 'Usuário Teste', senhaFraca, senhaFraca);
 
         await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
@@ -101,10 +99,7 @@ test.describe('Cadastro - BugBank', () => {
         const usuario = 'Usuário Teste';
 
         // Primeiro cadastra um usuário
-        await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
-        await cadastro.getByPlaceholder('Informe seu Nome').fill(usuario);
-        await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
-        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senha);
+        await cadastroPadrao(cadastro, email, 'Usuário Teste', senha, senha);
         
         await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
@@ -115,10 +110,7 @@ test.describe('Cadastro - BugBank', () => {
         await page.getByRole('button', { name: 'Registrar' }).click();
 
         // Depois tenta cadastrar o mesmo usuário novamente
-        await cadastro.getByPlaceholder('Informe seu e-mail').fill(email);
-        await cadastro.getByPlaceholder('Informe seu Nome').fill(usuario);
-        await cadastro.getByPlaceholder('Informe sua senha').fill(senha);
-        await cadastro.getByPlaceholder('Informe a confirmação da senha').fill(senha);
+        await cadastroPadrao(cadastro, email, usuario, senha, senha);
 
         await cadastro.getByRole('button', { name: 'Cadastrar' }).click();
 
